@@ -1,0 +1,116 @@
+variables:
+  main: ""
+  binary_name: ""
+  ldflags: ""
+  description: ""
+  github_url: ""
+  maintainer: ""
+  license: "MIT"
+  homepage: "https://jon4hz.io"
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - 
+    id: default
+    env:
+      - CGO_ENABLED=0
+    main: '{{ .main }}'
+    binary: '{{ .binary_name }}'
+    ldflags: '{{ .ldflags }}'
+    flags:
+      - -trimpath
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - "386"
+      - arm
+    goarm:
+      - "7"
+    ignore:
+      - goos: windows
+        goarch: arm64
+      - goos: windows
+        goarm: "7"
+    hooks:
+      post: upx -9 "{{ .Path }}"
+  - 
+    id: bsd
+    env:
+      - CGO_ENABLED=0
+    main: '{{ .main }}'
+    binary: '{{ with .binary_name }}{{ . }}{{ else }}{{ .ProjectName }}{{ end }}'
+    ldflags: '{{ .ldflags }}'
+    flags: 
+      - -trimpath
+    goos:
+      - freebsd
+    goarch:
+      - amd64
+      - "386"
+
+archives:
+  - 
+    name_template: "{{ .binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    builds:
+      - default
+      - bsd
+    format_overrides:
+      - goos: windows
+        format: zip
+    replacements:
+      darwin: macOS
+
+checksum:
+  name_template: 'checksums.txt'
+
+nfpms:
+  - 
+    file_name_template: "{{ .binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    vendor: jon4hz
+    homepage: '{{ .homepage }}'
+    maintainer: '{{ .maintainer }}'
+    description: '{{ .description }}'
+    license: '{{ .license }}'
+    formats:
+      - apk
+      - deb
+      - rpm
+
+source:
+  enabled: true
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-devel"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+  groups:
+    - title: 'New Features'
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: 'Bug fixes'
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 10
+    - title: Others
+      order: 999
+
+furies:
+  - account: jon4hz
+
+signs:
+  - artifacts: checksum
+    stdin: '{{ .Env.GPG_PASSWORD }}'
+    args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
