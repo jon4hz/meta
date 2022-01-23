@@ -11,6 +11,8 @@ on:
         required: true
       FURY_TOKEN:
         required: true
+      AUR_KEY:
+        required: true
 
 jobs:
   release:
@@ -57,3 +59,4 @@ jobs:
           FURY_TOKEN: ${{ secrets.FURY_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          AUR_KEY: ${{ secrets.AUR_KEY }}
