@@ -1,5 +1,8 @@
 name: lint
 
+on:
+  workflow_call:
+
 jobs:
   golangci:
     name: lint
