@@ -85,18 +85,18 @@ nfpms:
       - deb
       - rpm
 
-aurs:
-  -
-    name: '{{ .binary_name }}-bin'
-    homepage: '{{ .homepage }}'
-    description: '{{ .description }}'
-    maintainers:
-      - '{{ .maintainer }}'
-    license: '{{ .license }}'
-    private_key: '{{ .Env.AUR_KEY }}'
-    git_url: 'ssh://aur@aur.archlinux.org/{{ .binary_name }}-bin.git'
-    package: '{{ .aur_package }}'
-
+#aurs:
+#  -
+#    name: '{{ .binary_name }}-bin'
+#    homepage: '{{ .homepage }}'
+#    description: '{{ .description }}'
+#    maintainers:
+#      - '{{ .maintainer }}'
+#    license: '{{ .license }}'
+#    private_key: '{{ .Env.AUR_KEY }}'
+#    git_url: 'ssh://aur@aur.archlinux.org/{{ .binary_name }}-bin.git'
+#    package: '{{ .aur_package }}'
+#
 
 source:
   enabled: true
