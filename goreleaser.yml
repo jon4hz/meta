@@ -46,7 +46,7 @@ builds:
     id: bsd
     env:
       - CGO_ENABLED=0
-    main: '{{ .main }}'
+    main: '{{ .Var.main }}'
     binary: '{{ with .Var.binary_name }}{{ . }}{{ else }}{{ .ProjectName }}{{ end }}'
     ldflags: '{{ .Var.ldflags }}'
     flags: 
