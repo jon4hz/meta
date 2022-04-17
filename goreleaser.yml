@@ -68,6 +68,12 @@ archives:
         format: zip
     replacements:
       darwin: macOS
+    files:
+      - LICENSE.txt
+      - README_{{.Os}}.md
+      - CHANGELOG.md
+      - manpages/
+      - completions
 
 checksum:
   name_template: 'checksums.txt'
