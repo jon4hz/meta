@@ -19,9 +19,9 @@ builds:
     id: default
     env:
       - CGO_ENABLED=0
-    main: '{{ .main }}'
-    binary: '{{ .binary_name }}'
-    ldflags: '{{ .ldflags }}'
+    main: '{{ .Var.main }}'
+    binary: '{{ .Var.binary_name }}'
+    ldflags: '{{ .Var.ldflags }}'
     flags:
       - -trimpath
     goos:
@@ -47,8 +47,8 @@ builds:
     env:
       - CGO_ENABLED=0
     main: '{{ .main }}'
-    binary: '{{ with .binary_name }}{{ . }}{{ else }}{{ .ProjectName }}{{ end }}'
-    ldflags: '{{ .ldflags }}'
+    binary: '{{ with .Var.binary_name }}{{ . }}{{ else }}{{ .ProjectName }}{{ end }}'
+    ldflags: '{{ .Var.ldflags }}'
     flags: 
       - -trimpath
     goos:
@@ -59,7 +59,7 @@ builds:
 
 archives:
   - 
-    name_template: "{{ .binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    name_template: "{{ .Var.binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
     builds:
       - default
       - bsd
@@ -74,29 +74,29 @@ checksum:
 
 nfpms:
   - 
-    file_name_template: "{{ .binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
+    file_name_template: "{{ .Var.binary_name }}-v{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}-{{ .Mips }}{{ end }}"
     vendor: jon4hz
-    homepage: '{{ .homepage }}'
-    maintainer: '{{ .maintainer }}'
-    description: '{{ .description }}'
-    license: '{{ .license }}'
+    homepage: '{{ .Var.homepage }}'
+    maintainer: '{{ .Var.maintainer }}'
+    description: '{{ .Var.description }}'
+    license: '{{ .Var.license }}'
     formats:
       - apk
       - deb
       - rpm
 
-#aurs:
-#  -
-#    name: '{{ .binary_name }}-bin'
-#    homepage: '{{ .homepage }}'
-#    description: '{{ .description }}'
-#    maintainers:
-#      - '{{ .maintainer }}'
-#    license: '{{ .license }}'
-#    private_key: '{{ .Env.AUR_KEY }}'
-#    git_url: 'ssh://aur@aur.archlinux.org/{{ .binary_name }}-bin.git'
-#    package: '{{ .aur_package }}'
-#
+aurs:
+  -
+    name: '{{ .Var.binary_name }}-bin'
+    homepage: '{{ .Var.homepage }}'
+    description: '{{ .Var.description }}'
+    maintainers:
+      - '{{ .Var.maintainer }}'
+    license: '{{ .Var.license }}'
+    private_key: '{{ .Env.AUR_KEY }}'
+    git_url: 'ssh://aur@aur.archlinux.org/{{ .Var.binary_name }}-bin.git'
+    package: '{{ .Var.aur_package }}'
+
 
 source:
   enabled: true
