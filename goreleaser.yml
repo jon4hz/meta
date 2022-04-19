@@ -1,7 +1,6 @@
 variables:
   main: ""
   binary_name: ""
-  ldflags: ""
   description: ""
   github_url: ""
   maintainer: ""
@@ -21,7 +20,7 @@ builds:
       - CGO_ENABLED=0
     main: '{{ .Var.main }}'
     binary: '{{ .Var.binary_name }}'
-    ldflags: '{{ .Var.ldflags }}'
+    ldflags: -s -w -X github.com/jon4hz/{{ .Var.binary_name }}/internal/version.Version={{ .Version }} -X github.com/jon4hz/{{ .Var.binary_name }}/internal/version.Commit={{ .Commit }} -X github.com/jon4hz/{{ .Var.binary_name }}/internal/version.Date={{ .Date }} -X github.com/jon4hz/{{ .Var.binary_name }}/internal/version.BuiltBy=goreleaser
     flags:
       - -trimpath
     goos:
@@ -48,7 +47,7 @@ builds:
       - CGO_ENABLED=0
     main: '{{ .Var.main }}'
     binary: '{{ with .Var.binary_name }}{{ . }}{{ else }}{{ .ProjectName }}{{ end }}'
-    ldflags: '{{ .Var.ldflags }}'
+    ldflags: -s -w -X github.com/jon4hz/deadshot/internal/version.Version={{ .Version }} -X github.com/jon4hz/deadshot/internal/version.Commit={{ .Commit }} -X github.com/jon4hz/deadshot/internal/version.Date={{ .Date }} -X github.com/jon4hz/deadshot/internal/version.BuiltBy=goreleas
     flags: 
       - -trimpath
     goos:
