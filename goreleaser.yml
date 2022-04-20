@@ -11,7 +11,6 @@ variables:
 before:
   hooks:
     - go mod tidy
-    - go generate ./...
 
 builds:
   - 
