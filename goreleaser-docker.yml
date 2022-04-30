@@ -3,6 +3,12 @@ variables:
 
 dockers:
   - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:latest"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:{{ .Tag }}"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Major }}"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:{{ .Tag }}-amd64"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Major }}-amd64"
       - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-amd64"
     goarch: amd64
     build_flag_templates:
@@ -17,6 +23,8 @@ dockers:
     dockerfile: Dockerfile
     use: buildx
   - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:{{ .Tag }}-arm64"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Major }}-arm64"
       - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-arm64"
     goarch: arm64
     build_flag_templates:
@@ -31,6 +39,8 @@ dockers:
     dockerfile: Dockerfile
     use: buildx
   - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:{{ .Tag }}-armv7"
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Major }}-armv7"
       - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-armv7"
     goarch: arm
     goarm: "7"
