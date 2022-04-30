@@ -1,0 +1,47 @@
+variables:
+  description: ""
+
+dockers:
+  - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-amd64"
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+      - --label=org.opencontainers.image.title={{ .ProjectName }}
+      - --label=org.opencontainers.image.description={{ .Var.description }}
+      - --label=org.opencontainers.image.source={{ .GitURL }}
+      - --label=org.opencontainers.image.version=v{{ .Version }}
+      - --label=org.opencontainers.image.created={{ .Date }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+    dockerfile: Dockerfile
+    use: buildx
+  - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-arm64"
+    goarch: arm64
+    build_flag_templates:
+      - --platform=linux/arm64
+      - --label=org.opencontainers.image.title={{ .ProjectName }}
+      - --label=org.opencontainers.image.description={{ .Var.description }}
+      - --label=org.opencontainers.image.source={{ .GitURL }}
+      - --label=org.opencontainers.image.version=v{{ .Version }}
+      - --label=org.opencontainers.image.created={{ .Date }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+    dockerfile: Dockerfile
+    use: buildx
+  - image_templates:
+      - "ghcr.io/jon4hz/{{ .ProjectName }}:v{{ .Version }}-armv7"
+    goarch: arm
+    goarm: "7"
+    build_flag_templates:
+      - --platform=linux/arm/v7
+      - --label=org.opencontainers.image.title={{ .ProjectName }}
+      - --label=org.opencontainers.image.description={{ .Var.description }}
+      - --label=org.opencontainers.image.source={{ .GitURL }}
+      - --label=org.opencontainers.image.version=v{{ .Version }}
+      - --label=org.opencontainers.image.created={{ .Date }}
+      - --label=org.opencontainers.image.revision={{ .FullCommit }}
+      - --label=org.opencontainers.image.licenses=MIT
+    dockerfile: Dockerfile
+    use: buildx
