@@ -8,10 +8,6 @@ variables:
   homepage: "https://jon4hz.io"
   aur_package: ""
 
-before:
-  hooks:
-    - go mod tidy
-
 builds:
   - 
     id: default
